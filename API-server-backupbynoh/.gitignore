@@ -1,0 +1,45 @@
+## Project git Ignore File ##
+
+### Java template
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+### macOS template
+*.DS_Store
+.AppleDouble
+.LSOverride
+
+# IntelliJ project files
+.idea
+.idea/*.xml
+*.iml
+out
+gen
+build
+rebel.xml
+
+# Compliled files
+/target/
+**/target
+
+# Gradle
+.gradle/
+#gradle/
+.settings/
+bin/
+build/
+
+# Eclipse Core
+.project
+web.xml
+.temp*
+
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+
+.metadata/
+

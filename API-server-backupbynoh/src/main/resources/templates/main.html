@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Main Page</title>
+</head>
+<body>
+	<h1>Welcome to Main page!</h1>
+	<p>This is the main page of my website.</p>
+	<table>
+		<thead>
+			<tr>
+				<th>id</th>
+				<th>userId</th>
+				<th>loginTime</th>
+				<th>accessToken</th>
+				<th>refreshToken</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="loginHistory : ${loginHistory}">
+				<td th:text="${loginHistory.id}"></td>
+				<td th:text="${loginHistory.userId}"></td>
+				<td th:text="${loginHistory.loginTime}"></td>
+				<td th:text="${loginHistory.accessToken}"></td>
+				<td th:text="${loginHistory.refreshToken}"></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
