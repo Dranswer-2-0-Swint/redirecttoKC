@@ -11,24 +11,40 @@ server:
 spring:
   application:
     name: dranswer
-  datasource:
-    #driver-class-name: org.postgresql.Driver
-    #url: jdbc:postgresql://192.168.85.134:5432/postgres
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5433}/${DB_NAME:postgres}
-    username: ${DB_USER:postgres}
-    password: ${DB_PASS:ttt333qqq}
+#  datasource:
+#    url: jdbc:postgresql://${DB_HOST:27.96.134.98}:${DB_PORT:5444}/${DB_NAME:svc_plf}?currentSchema=${DB_SCHEMA:swint}
+#    username: ${DB_USER:postgres}
+#    password: ${DB_PASS:postgres}
+  jpa:
+    properties:
+      hibernate:
+        default_catalog: svc_plf
+        default_schema: swint
+        hbm2ddl:
+          auto: none
 
-keycloak:
-  enabled: true
-  realm: service-user-dev
-  auth-server-url: http://27.96.130.179:5010/auth
-  ssl-required: external
-  resource: service-portal
-  credentials:
-    secret: v3TSB8e6Kd6Yb6gJqmSwcvJA91ERO982
-  use-resource-role-mappings: true
-  bearer-only: true
-  
-auth:
-  #callback-url: http://192.168.85.132:8888
-  callback-url: http://${LOCAL_HOST:localhost}:${LOCAL_PORT:8888}
+mybatis:
+  type-aliases-package: com.t3q.dranswer.dto
+
+env:
+  authUrl: ${AUTH_HOST:https://auth.svc.dranswer.co.kr}
+
+  userRealm: ${USER_REALM:service-user-dev}
+  userClient: ${USER_CLIENT:login}
+  userSecret: ${USER_SECRET:JG6eaVSJVzbUp5Sgp7MAyByrraZX7xNC}
+  userAuthUrl: ${env.authUrl}/auth/realms/${env.userRealm}/protocol/openid-connect/auth
+  userTokenUrl: ${env.authUrl}/auth/realms/${env.userRealm}/protocol/openid-connect/token
+  userSpecUrl: ${env.authUrl}/auth/realms/${env.userRealm}/protocol/openid-connect/token/introspect
+
+  systemRealm: ${SYSTEM_REALM:service-system-dev}
+  systemClient: ${SYSTEM_CLIENT:swint}
+  systemSecret: ${SYSTEM_SECRET:K91G3XhKY3z2qussprBEAC24cksv0qNk}
+  systemAuthUrl: ${env.authUrl}/auth/realms/${env.systemRealm}/protocol/openid-connect/auth
+  systemTokenUrl: ${env.authUrl}/auth/realms/${env.systemRealm}/protocol/openid-connect/token
+  systemSpecUrl: ${env.authUrl}/auth/realms/${env.systemRealm}/protocol/openid-connect/token/introspect
+
+  cmanUrl: ${CMAN_HOST:http://115.85.182.6:30330}
+  callbackUrl: ${LOCAL_HOST:http://localhost:8888/callback}
+
+  accessTokenName: dr_access_token
+  refreshTokenName: dr_refresh_token

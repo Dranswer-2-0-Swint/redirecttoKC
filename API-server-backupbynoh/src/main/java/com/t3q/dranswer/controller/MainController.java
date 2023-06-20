@@ -1,22 +1,18 @@
 package com.t3q.dranswer.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.t3q.dranswer.config.ApplicationProperties;
+import com.t3q.dranswer.dto.db.LoginHistory;
+import com.t3q.dranswer.service.KeycloakService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.t3q.dranswer.config.Constants;
-import com.t3q.dranswer.dto.db.LoginHistory;
-import com.t3q.dranswer.service.KeycloakService;
-
-import lombok.extern.log4j.Log4j2;
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 @Log4j2
 @Controller
@@ -25,8 +21,12 @@ public class MainController {
 	@Autowired
 	private KeycloakService keycloakService;
 	
-	@Value("${auth.callback-url}")
-	String CALLBACK_URL;
+	private final ApplicationProperties applicationProperties;
+
+	@Autowired
+	public MainController(ApplicationProperties applicationProperties) {
+		this.applicationProperties = applicationProperties;
+	}
 
 	@RequestMapping(value = "/")
 	public String mainPage(HttpServletRequest request, Model model) {
@@ -37,8 +37,8 @@ public class MainController {
 			return "redirect:" + keycloakRedirectUrl;
 		}
 		List<LoginHistory> loginHistory = new ArrayList<>();
-		loginHistory = keycloakService.getLoginHistory(request);
-		model.addAttribute("loginHistory", loginHistory);
+		//loginHistory = keycloakService.getLoginHistory(request);
+		//model.addAttribute("loginHistory", loginHistory);
 		return "main";
 	}
 
@@ -57,8 +57,7 @@ public class MainController {
 			log.error(e.getMessage());
 			return "login_fail";
 		}
-		//return "redirect:http://localhost:8888/callback/callbacktest";
-		return "redirect:" + CALLBACK_URL + Constants.KEYCLOAK_CALLBACK_URL + "/callbacktest";
+		return "redirect:" + applicationProperties.getCallbackUrl() + "/callbacktest";
 	}
 
 	@RequestMapping(value = "/callback/callbacktest")

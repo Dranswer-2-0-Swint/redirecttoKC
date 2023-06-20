@@ -13,7 +13,7 @@ public class KeycloakIntroSpectRes {
 	private int	iat;
 	private String jti;
 	private String iss;
-	private String aud;
+	private Object aud;
 	private String sub;
 	private String typ;
 	private String azp;
@@ -25,7 +25,7 @@ public class KeycloakIntroSpectRes {
 	private String	preferredUsername;
 	
 	@JsonProperty("email_verified")
-	private String emailVerified;
+	private boolean emailVerified;
 	
 	private String acr;
 	
