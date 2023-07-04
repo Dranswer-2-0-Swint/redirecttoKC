@@ -27,7 +27,7 @@ mybatis:
   type-aliases-package: com.t3q.dranswer.dto
 
 env:
-  authUrl: ${AUTH_HOST:https://auth.svc.dranswer.co.kr}
+  authUrl: ${AUTH_HOST:http://auth.dev.dranswer-g.co.kr}
 
   userRealm: ${USER_REALM:service-user-dev}
   userClient: ${USER_CLIENT:login}

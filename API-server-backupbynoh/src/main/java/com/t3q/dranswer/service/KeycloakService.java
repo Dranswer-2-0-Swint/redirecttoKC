@@ -40,6 +40,8 @@ public class KeycloakService {
 		String authUrl		= applicationProperties.getUserAuthUrl();
 		String clientId		= applicationProperties.getUserClient();
 		String redirectUri	= applicationProperties.getCallbackUrl();
+		//String clientId		= "servpot";
+		//String redirectUri	= "http://jdi.iptime.org:18080";
 		String responseType	= "code";
 		String url = String.format("%s?client_id=%s&redirect_uri=%s&response_type=%s&scope=openid", 
                 					authUrl, clientId, redirectUri, responseType);

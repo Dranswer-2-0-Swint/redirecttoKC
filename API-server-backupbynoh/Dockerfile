@@ -1,13 +1,17 @@
 
 # docker build -t swint .
-# docker run -d -p 8888:8888 -e DB_URL=swint-post -e LOCAL_URL=192.168.85.132 --network swint-network --name swint swint
-# docker exec -it swint-post /bin/bash
+# docker run -d -p 8888:8888 --network swint-network --name swint-was swint-was:e18f894
+# docker exec -it swint /bin/bash
 
 FROM centos:7
 
 VOLUME /app/data
 
-# 1. JAVA
+# 1. tools
+RUN yum install -y curl unzip wget net-tools
+
+
+# 2. JAVA
 # install JAVA-11
 RUN yum update -y && \
         yum install -y java-11-openjdk-devel.x86_64
@@ -16,7 +20,7 @@ ENV JAVA_HOME /usr/lib/jvm/java-11-openjdk-11.0.19.0.7-1.el7_9.x86_64
 RUN export JAVA_HOME
 
 
-# 2. GRADLE
+# 3. GRADLE
 # set the enviroment for GRADLE
 ENV GRADLE_VERSION=8.1.1
 ENV GRADLE_HOME=/opt/gradle/gradle-${GRADLE_VERSION}
@@ -27,10 +31,6 @@ RUN wget https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.
 RUN export GRADLE_HOME
 ENV PATH $PATH:$GRADLE_HOME/bin
 RUN export PATH
-
-
-# 3. etc
-RUN yum install -y curl unzip wget net-tools
 
 
 # 4. Firewalld
@@ -48,6 +48,17 @@ ENV DB_USER=postgres
 ENV DB_PASS=postgres
 ENV LOCAL_HOST=localhost
 ENV LOCAL_PORT=8888
+
+ENV AUTH_HOST=https://auth.dev.dranswer-g.co.kr
+ENV USER_REALM=service-user-dev
+ENV USER_CLIENT=login
+ENV USER_SECRET=JG6eaVSJVzbUp5Sgp7MAyByrraZX7xNC
+ENV SYSTEM_REALM=service-system-dev
+ENV SYSTEM_CLIENT=swint
+ENV SYSTEM_SECRET=K91G3XhKY3z2qussprBEAC24cksv0qNk
+
+ENV CMAN_HOST=http://115.85.182.6:30330
+ENV LOCAL_HOST=http://localhost:8888/callback
 
 
 # 6. Copy and Build
